@@ -5,7 +5,7 @@ import os.path
 import argparse
 import time
 import subprocess
-from ConfigParser import ConfigParser
+from configobj import ConfigObj
 from github2.client import Github
 
 __here__ = os.path.dirname(__file__)
@@ -19,10 +19,9 @@ def play_audio(filename):
 
 
 def github_client():
-    config = ConfigParser()
-    config.read(os.path.join(os.getenv('HOME'), '.gitconfig'))
-    return Github(username=config.get('github', 'user'),
-                  api_token=config.get('github', 'token'),
+    config = ConfigObj(os.path.join(os.getenv('HOME'), '.gitconfig'))
+    return Github(username=config['github']['user'],
+                  api_token=config['github']['token'],
                   requests_per_second=1)
 
 
